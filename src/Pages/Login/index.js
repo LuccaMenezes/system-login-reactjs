@@ -3,6 +3,9 @@ import { Container, Form } from './styles';
 import Input from '../../Components/Input';
 import Botao from '../../Components/Botao';
 import { validarEmail, validarSenha } from '../../Utils/validadores';
+import UserService from '../../Services/UserService'
+
+const userService = new UserService()
 
 const Login = () => {
     const [loading, setLoading] = useState()
@@ -12,7 +15,12 @@ const Login = () => {
         event.preventDefault();
         try {
             setLoading(true)
-            alert('Login')
+            const response = await userService.login(form)
+            console.log('response do login', response)
+            if (response === true) {
+                alert('Usuário logado com sucesso!')
+                //navegar para a home
+            }
             setLoading(false)
         }
         catch (err) {
@@ -21,9 +29,7 @@ const Login = () => {
     }
 
     const handleChange = (event) => {
-        console.log('Digitando...', event.target.name, event.target.value)
         setForm({...form, [event.target.name]: event.target.value})
-        console.log('Form', form)
     }
 
     const validadorInput = () => {
