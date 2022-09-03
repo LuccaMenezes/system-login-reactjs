@@ -1,13 +1,19 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Container, Form } from './styles';
 import Input from '../../Components/Input';
 import Botao from '../../Components/Botao';
+import { validarEmail, validarSenha } from '../../Utils/validadores';
 
 const Login = () => {
+    const [loading, setLoading] = useState()
+    const [form, setForm] = useState([])
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         try {
+            setLoading(true)
             alert('Login')
+            setLoading(false)
         }
         catch (err) {
             alert('Algo deu errado com o login' + err)
@@ -16,7 +22,15 @@ const Login = () => {
 
     const handleChange = (event) => {
         console.log('Digitando...', event.target.name, event.target.value)
+        setForm({...form, [event.target.name]: event.target.value})
+        console.log('Form', form)
     }
+
+    const validadorInput = () => {
+        return validarEmail(form.email) && validarSenha(form.password)
+    }
+
+    console.log('Form esta válido?', validadorInput())
 
     return ( 
         <Container>
@@ -38,7 +52,7 @@ const Login = () => {
                     type='submit'
                     text='Entrar!'
                     onClick={handleSubmit}
-                    //disabled={}
+                    disabled={loading === true || !validadorInput()}
                 />
                 <div>
                     <p>Não possui conta?</p>

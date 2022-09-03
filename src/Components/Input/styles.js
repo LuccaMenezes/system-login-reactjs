@@ -16,4 +16,14 @@ export const InputCustomizado = styled.input`
       opacity 0.7;
     }
 
+    ${props => props.disabled === false &&`
+    &:hover {
+      background-color: #FFF;
+      color: #6a6a6a;
+    }
+  `}
+
+  ${props => props.disabled &&`
+    opacity: 0.7
+  `}
 `
